@@ -1,28 +1,40 @@
 package com.ironman.restaurantmanagement.application.service.impl;
 
+import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
+import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
+import com.ironman.restaurantmanagement.application.mapper.CategoryMapper;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+// Lombok annotation
+@RequiredArgsConstructor
+
+// Spring Stereotype annotation
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    @Override
+    public List<CategorySmallDto> findAll() {
+        return ((List<Category>)categoryRepository.findAll())
+                .stream()
+                .map(categoryMapper::toSmallDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Category> findAll() {
-        return (List<Category>)categoryRepository.findAll();
+    public CategoryDto findById(Long id) {
+        return categoryRepository.findById(id)
+                .map(categoryMapper::toDto)
+                .orElse(new CategoryDto());
     }
 
-    @Override
-    public Category findById(Long id) {
-        return categoryRepository.findById(id).orElse(new Category());
-    }
 }
