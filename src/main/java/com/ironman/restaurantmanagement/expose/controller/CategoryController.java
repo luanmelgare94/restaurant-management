@@ -1,25 +1,25 @@
 package com.ironman.restaurantmanagement.expose.controller;
 
+import com.ironman.restaurantmanagement.application.dto.category.CategoryBodyDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
+import com.ironman.restaurantmanagement.application.dto.category.CategorySavedDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
-import com.ironman.restaurantmanagement.persistence.entity.Category;
-import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+
+// Spring annotations
+@RequiredArgsConstructor
+
+// Spring Stereotype annotation
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private final CategoryService categoryService;
 
     @GetMapping
     public List<CategorySmallDto> getCategories() {
@@ -30,4 +30,20 @@ public class CategoryController {
     public CategoryDto findById(@PathVariable("id") Long id) {
         return categoryService.findById(id);
     }
+
+    @PostMapping
+    public CategorySavedDto create(@RequestBody CategoryBodyDto categoryBodyDto) {
+        return categoryService.create(categoryBodyDto);
+    }
+
+    @PatchMapping("/{id}")
+    public CategorySavedDto update(@PathVariable("id") Long id, @RequestBody CategoryBodyDto categoryBodyDto) {
+        return categoryService.update(id, categoryBodyDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public CategorySavedDto disable(@PathVariable("id") Long id) {
+        return categoryService.disable(id);
+    }
+
 }
