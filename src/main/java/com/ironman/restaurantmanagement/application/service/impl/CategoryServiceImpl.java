@@ -8,6 +8,7 @@ import com.ironman.restaurantmanagement.application.mapper.CategoryMapper;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
 import com.ironman.restaurantmanagement.persistence.entity.Category;
 import com.ironman.restaurantmanagement.persistence.repository.CategoryRepository;
+import com.ironman.restaurantmanagement.shared.state.enums.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private Category fillFieldsForCreate(Category category) {
-        category.setState("A");
+        category.setState(State.ENABLED.getValue());
         category.setCreatedAt(LocalDateTime.now());
         return category;
     }
@@ -89,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private Category fillFieldsForDisable(Category category) {
-        category.setState("E");
+        category.setState(State.DISABLED.getValue());
         return category;
     }
 
