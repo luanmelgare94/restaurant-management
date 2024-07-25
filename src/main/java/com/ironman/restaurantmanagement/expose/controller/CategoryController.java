@@ -5,6 +5,7 @@ import com.ironman.restaurantmanagement.application.dto.category.CategoryDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySavedDto;
 import com.ironman.restaurantmanagement.application.dto.category.CategorySmallDto;
 import com.ironman.restaurantmanagement.application.service.CategoryService;
+
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,12 @@ public class CategoryController {
     @GetMapping("/name/{name}")
     public List<CategorySmallDto> findByName(@PathVariable("name") String name) {
         return categoryService.findByName(name);
+    }
+
+    @GetMapping("/filters")
+    public List<CategorySmallDto> findAllByFilters(@RequestParam(value = "name", required = false) String name,
+                                                   @RequestParam(value = "state", required = false) String state) {
+        return categoryService.findAllByFilters(name, state);
     }
 
     @PostMapping
