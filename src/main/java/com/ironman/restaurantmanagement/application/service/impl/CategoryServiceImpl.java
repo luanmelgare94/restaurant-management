@@ -86,6 +86,14 @@ public class CategoryServiceImpl implements CategoryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<CategorySmallDto> findByName(String name) {
+        return categoryRepository.findByName(name)
+                .stream()
+                .map(categoryMapper::toSmallDto)
+                .collect(Collectors.toList());
+    }
+
     private Category fillFieldsForCreate(Category category) {
         category.setState(State.ENABLED.getValue());
         category.setCreatedAt(LocalDateTime.now());
